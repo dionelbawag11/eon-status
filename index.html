@@ -161,17 +161,17 @@ function render(d) {
 
   // Downtime per day, for the 90 bars.
   const start = new Date(); start.setHours(0, 0, 0, 0);
-  const down = new Array(DAYS).fill(0);
+  const byDay = new Array(DAYS).fill(0);
   for (const l of d.logs) {
     const t = l.datetime * 1000;
     const idx = DAYS - 1 - Math.floor((start.getTime() + DAY - t) / DAY);
-    if (idx >= 0 && idx < DAYS) down[idx] += l.duration;
+    if (idx >= 0 && idx < DAYS) byDay[idx] += l.duration;
   }
-  const totalDown = down.reduce((a, b) => a + b, 0);
+  const totalDown = byDay.reduce((a, b) => a + b, 0);
   const tracked = Math.min(DAYS, Math.ceil((now - d.since) / DAY));
   const uptime = Math.max(0, 100 - (totalDown / (tracked * 86400)) * 100);
 
-  const bars = down.map((s, i) => {
+  const bars = byDay.map((s, i) => {
     const day = start.getTime() - (DAYS - 1 - i) * DAY;
     const before = i < DAYS - tracked;
     const cls = before ? 'none' : s === 0 ? '' : s < 15 * 60 ? 'warn' : 'bad';
