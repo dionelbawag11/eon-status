@@ -1,3 +1,3 @@
-# eon status
+# GoDink status
 
-Live status page for eon. Data from UptimeRobot.
+Live status page for GoDink (https://godink.org). Data from UptimeRobot.
